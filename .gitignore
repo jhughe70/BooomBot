@@ -8,3 +8,5 @@ ffmpeg/bin/ffplay.exe
 ffmpeg/bin/ffprobe.exe
 
 ffmpeg/doc/
+
+testingURL.py

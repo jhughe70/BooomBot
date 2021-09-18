@@ -3,7 +3,10 @@ import discord
 from discord.ext import commands
 import youtube_dl
 import os
- 
+import urllib.parse, urllib.request, re
+import requests
+import Constants
+
 class music(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -18,6 +21,22 @@ class music(commands.Cog):
             await voice_channel.connect()
         else:
             await ctx.voice_client.move_to(voice_channel)
+
+# Search By Title
+    @commands.command()
+    async def p(self, ctx, *, search):
+
+        htmlRequest = requests.get("https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=" + search + "&type=video&maxResults=1&key=" + Constants.youtube_API)
+    
+        requestJSON = htmlRequest.json()
+        videoID = requestJSON["items"][0]["id"]["videoId"]
+        videoTitle = requestJSON["items"][0]["snippet"]["title"]
+
+        url3 = "http://youtube.com/watch?v="+ videoID
+        await ctx.send("Now playing " + videoTitle + " at " + url3)
+
+        await self.play(ctx, url3)
+
 
 # Disconnect Command
     @commands.command()

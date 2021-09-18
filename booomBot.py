@@ -1,7 +1,9 @@
+from sys import executable
 import discord
 from discord.ext import commands
 import youtube_dl
-
+import os
+ 
 class music(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -33,7 +35,7 @@ class music(commands.Cog):
         with youtube_dl.YoutubeDL(YDL_OPTIONS) as ydl:
             info = ydl.extract_info(url, download = False)
             url2 = info["formats"][0]["url"]
-            source = await discord.FFmpegOpusAudio.from_probe(url2, **FFMPEG_OPTIONS)
+            source = await discord.FFmpegOpusAudio.from_probe(url2, **FFMPEG_OPTIONS, executable=os.path.join(os.path.dirname(__file__), "ffmpeg/bin/ffmpeg.exe"))
             vc.play(source)
     
 # Pause Command

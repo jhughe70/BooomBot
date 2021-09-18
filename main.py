@@ -13,9 +13,5 @@ for i in range(len(cogs)):
     cogs[i].setup(client)
 
 key = 'booomBot_key'
-#print(os.environ)
-print(Constants.booomBot_key)
-#print(os.getenv(key))
 
-
-#client.run(os.getenv(key))
+client.run(Constants.booomBot_key)

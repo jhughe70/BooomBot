@@ -15,16 +15,14 @@ import itertools
 from async_timeout import timeout
 import asyncio
 
-
+DEFAULT_FFMPEG_PATH = "/usr/bin/ffmpeg"
 
 playing = False
-
 
 class music(commands.Cog):
     
     def __init__(self, client):
         self.client = client
-
 
     @commands.command()
     async def reboot(self, ctx):
@@ -38,8 +36,6 @@ class music(commands.Cog):
             pass
         print("Trying to reboot")
         os.system(".\.venv\Scripts\python.exe main.py")
-
-
 
 # Join Command
     @commands.command()
@@ -65,7 +61,6 @@ class music(commands.Cog):
         url3 = "http://youtube.com/watch?v="+ videoID
         #await ctx.send("Now playing " + videoTitle + " at " + url3)
         
-
         await self.play(ctx, url3)
             
 
@@ -89,7 +84,7 @@ class music(commands.Cog):
                 info = ydl.extract_info(url, download = False)
                 url2 = info["formats"][0]["url"]
                 print(info)
-                source = await discord.FFmpegOpusAudio.from_probe(url2, **FFMPEG_OPTIONS, executable=os.path.join(os.path.dirname(__file__), "ffmpeg/bin/ffmpeg.exe"))
+                source = await discord.FFmpegOpusAudio.from_probe(url2, **FFMPEG_OPTIONS, executable=DEFAULT_FFMPEG_PATH))
                 
                 # Determine if bot is already playing audio in order to add song to queue or play immediately
                 if vc.is_playing():
@@ -102,8 +97,6 @@ class music(commands.Cog):
                     musicEmbed.add_field(name= "Requested by", value= ctx.author.mention, inline=True)
                     musicEmbed.add_field(name= "Duration", value= timedelta(seconds=int(str(info["duration"]))), inline=True)
                     await ctx.send(embed=musicEmbed)
-
-
 
                 # If nothing is currently being played, play the song that was queued
                 else:
@@ -130,10 +123,6 @@ class music(commands.Cog):
         print("starting next song")
         await ctx.send("Playing next song:")
         await self.play(ctx, line)
-
-
-
-
 
 # # Skip Command
 #     @commands.command()

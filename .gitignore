@@ -10,3 +10,7 @@ ffmpeg/bin/ffprobe.exe
 ffmpeg/doc/
 
 testingURL.py
+
+
+env/
+.idea/
